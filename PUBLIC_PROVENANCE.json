@@ -1,0 +1,18 @@
+{
+  "public_mirror": "https://github.com/lbkapcsolat-dotcom/proofpath-public",
+  "live_demo": "https://proofpath-evidence-demo.floot.app",
+  "canonical_private_source": "lbkapcsolat-dotcom/ProofPath",
+  "canonical_private_source_visibility": "private",
+  "canonical_merge_sha": "d3960ad1a28513a2a98067ee716972ed1d8a96f2",
+  "canonical_tree_sha": "633a66649210778143153234fc670078366ce180",
+  "model_sha256": "00d5231529d2c5e1e6dc2ebc1bcdf2d45433270bb43deb6ee152293cd0c9471f",
+  "index_sha256": "1b9dac4de1c6b2f04f8d3080df023e4157bbb11c80fe1f0d7d2e18ad50523c61",
+  "app_sha256": "69cb56d982d7487beca9cd9ef9fa3bad467e584d0b3d828ae90657c7adf161e4",
+  "falsification_set_sha256": "d3a1ead61c0553c41921461d0d54063707bba3ebc5664ed1d03db3a7bb22dd46",
+  "falsification_tests_sha256": "462ab5b5ce1b2f2fba1881fa359d59dd0cfb7b2176039ff9d36c12d177f5b5d1",
+  "synthetic_holdout": "10/10 bounded curated",
+  "source_backed_falsification": "5/6 with 1 explicit counterexample",
+  "claim_ceiling": "EDUCATIONAL_EVIDENCE_ASSESSMENT_ONLY",
+  "private_history_exported": false,
+  "model_changed": false
+}
