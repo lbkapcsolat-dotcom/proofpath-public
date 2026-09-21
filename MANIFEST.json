@@ -1,8 +1,4 @@
 {
-  ".github/workflows/csc-school-evidence-coach.yml": {
-    "bytes": 2539,
-    "sha256": "92ec014e7eb992d47998ddfc6591ebca2a3955f2434ac1a7c3100d049392ff20"
-  },
   "DEMO_SCRIPT.md": {
     "bytes": 970,
     "sha256": "12bb4d8caf0ce3a22a0ac7ad45e8a87b74dfeb00411ec9f62490754e18cef71d"
@@ -23,26 +19,6 @@
     "bytes": 4427,
     "sha256": "69cb56d982d7487beca9cd9ef9fa3bad467e584d0b3d828ae90657c7adf161e4"
   },
-  "csc-2026/README_CSC.md": {
-    "bytes": 1481,
-    "sha256": "c96b2968d27df686c830b543c2956f08d64e0875e1715e3c2966746db850abf8"
-  },
-  "csc-2026/RUNTIME_RECEIPT_2026-09-05.md": {
-    "bytes": 1295,
-    "sha256": "d579fc762f46cbc485a04bd02375096cf5c8b56c195e0a656d651516f224185c"
-  },
-  "csc-2026/coach.js": {
-    "bytes": 2557,
-    "sha256": "5889a3eb81fb402ecdca1e4ac148c4470c1d0505f1e2d5903494ce459723dc43"
-  },
-  "csc-2026/index.html": {
-    "bytes": 1672,
-    "sha256": "6fc2779b59d70416280d0ff60ec5f9bd43d14dafe19217a51862d4eed261f611"
-  },
-  "csc-2026/test.cjs": {
-    "bytes": 1116,
-    "sha256": "4518fefeff52f457fe3742f5cf2ea7f613d5b9345def987a060b35e5fdd3f656"
-  },
   "index.html": {
     "bytes": 4865,
     "sha256": "1b9dac4de1c6b2f04f8d3080df023e4157bbb11c80fe1f0d7d2e18ad50523c61"
@@ -58,10 +34,6 @@
   "tests.mjs": {
     "bytes": 802,
     "sha256": "4794e3c88da107ed517d6ad4c635babab47fba9e0782b4302e93498e0854bd0f"
-  },
-  "csc-2026/RUNTIME_RECEIPT_2026-09-19_TAHR_HARDENING.md": {
-    "bytes": 3106,
-    "sha256": "733fdbb1d3bff82653cc28c9f02b0521c2616ffcf2e687a7f704c5af572113c0"
   },
   "falsification-set.js": {
     "bytes": 2676,
