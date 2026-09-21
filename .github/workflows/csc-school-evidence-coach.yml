@@ -1,9 +1,37 @@
-name: CSC School Evidence Coach
+name: ProofPath Public Mirror CI
 
 on:
   push:
     paths:
-      - 'csc-2026/**'
+      - 'README.md'
+      - 'MODEL_CARD.md'
+      - 'SUBMISSION_COPY.md'
+      - 'DEMO_SCRIPT.md'
+      - 'app.js'
+      - 'falsification-set.js'
+      - 'falsification-tests.mjs'
+      - 'index.html'
+      - 'model.js'
+      - 'test-ui.mjs'
+      - 'tests.mjs'
+      - 'MANIFEST.json'
+      - 'PUBLIC_PROVENANCE.json'
+      - '.github/workflows/csc-school-evidence-coach.yml'
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'MODEL_CARD.md'
+      - 'SUBMISSION_COPY.md'
+      - 'DEMO_SCRIPT.md'
+      - 'app.js'
+      - 'falsification-set.js'
+      - 'falsification-tests.mjs'
+      - 'index.html'
+      - 'model.js'
+      - 'test-ui.mjs'
+      - 'tests.mjs'
+      - 'MANIFEST.json'
+      - 'PUBLIC_PROVENANCE.json'
       - '.github/workflows/csc-school-evidence-coach.yml'
   workflow_dispatch:
 
@@ -13,11 +41,40 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout exact event-window commit
-        uses: actions/checkout@v4
+      - name: Checkout exact public mirror commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
       - name: Record runtime identity
         run: |
           node --version
           git rev-parse HEAD
-      - name: Run committed CSC tests
-        run: node csc-2026/test.cjs
+      - name: Verify sanitized public manifest
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const crypto = require('node:crypto');
+          const manifest = JSON.parse(fs.readFileSync('MANIFEST.json', 'utf8'));
+          let failed = false;
+          for (const [path, expected] of Object.entries(manifest)) {
+            const bytes = fs.readFileSync(path);
+            const actual = {
+              bytes: bytes.length,
+              sha256: crypto.createHash('sha256').update(bytes).digest('hex')
+            };
+            if (actual.bytes !== expected.bytes || actual.sha256 !== expected.sha256) {
+              console.error(`MANIFEST_MISMATCH ${path} expected=${expected.bytes}/${expected.sha256} actual=${actual.bytes}/${actual.sha256}`);
+              failed = true;
+            } else {
+              console.log(`MANIFEST_OK ${path} ${actual.bytes} ${actual.sha256}`);
+            }
+          }
+          if (failed) process.exit(1);
+          NODE
+      - name: Run root model tests
+        run: node tests.mjs
+      - name: Run source-backed falsification tests
+        run: node falsification-tests.mjs
+      - name: Run judge-first UI static checks
+        run: node test-ui.mjs

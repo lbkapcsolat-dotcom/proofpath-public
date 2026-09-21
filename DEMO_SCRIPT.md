@@ -1,8 +1,15 @@
-# Two-minute demo script
+# Two-minute judge-first demo script
 
-0:00–0:15 — Students are surrounded by AI answers, but evaluating evidence is harder.
-0:15–0:30 — ProofPath takes a claim and evidence and returns SUPPORTED, CONTRADICTED, or INSUFFICIENT.
-0:30–0:55 — Show “Iron is a metal.” Explain the probability output.
-0:55–1:20 — Show “The Arctic is hot.” Evidence says cold, not hot → CONTRADICTED.
-1:20–1:45 — Show “Coffee guarantees perfect concentration.” Evidence only says “may improve alertness” → INSUFFICIENT.
-1:45–2:00 — Technical close: offline browser ML, no API, no account, transparent model card, 10/10 on the bundled untouched holdout set. ProofPath teaches evidence reasoning, not truth detection.
+0:00–0:12 — “AI can generate claims instantly. ProofPath teaches the harder step: what does the evidence actually justify?”
+
+0:12–0:30 — Show the three-step judge path: CLAIM → EVIDENCE → BOUNDARY.
+
+0:30–0:52 — Run one clear SUPPORTED example and point to the three class probabilities.
+
+0:52–1:12 — Run one INSUFFICIENT overclaim: the evidence supports a narrower statement, not the guarantee.
+
+1:12–1:38 — Open the source-backed falsification surface. State that it is separate from both training and the 10-case synthetic holdout.
+
+1:38–1:52 — Click “Load a model counterexample.” Show the whale/fish case if it remains the first mismatch. Say: “The small lexical model misses this semantic contradiction. We display the miss instead of hiding it.”
+
+1:52–2:00 — Close: offline browser ML, no API/account, explicit counterexamples, claim ceiling `EDUCATIONAL_EVIDENCE_ASSESSMENT_ONLY`.
