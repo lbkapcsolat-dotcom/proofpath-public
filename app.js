@@ -1,5 +1,6 @@
-
 import { TRAINING_SET, HOLDOUT_SET, trainSoftmax, predict } from "./model.js";
+import { FALSIFICATION_SET, evaluateFalsification } from "./falsification-set.js";
+
 const model=trainSoftmax(TRAINING_SET);
 const claimEl=document.querySelector("#claim");
 const evidenceEl=document.querySelector("#evidence");
@@ -9,6 +10,10 @@ const probsEl=document.querySelector("#probabilities");
 const explanationEl=document.querySelector("#explanation");
 const exampleSelect=document.querySelector("#exampleSelect");
 const modelStatus=document.querySelector("#modelStatus");
+const falsificationSummary=document.querySelector("#falsificationSummary");
+const falsificationCases=document.querySelector("#falsificationCases");
+const counterexampleButton=document.querySelector("#counterexampleButton");
+
 function pct(x){return `${(x*100).toFixed(1)}%`;}
 function explain(label){
   if(label==="SUPPORTED") return "The supplied evidence has enough matching support signals for this compact classifier to place the pair in the SUPPORTED class.";
@@ -32,6 +37,27 @@ function render(out){
   probsEl.textContent=`SUPPORTED ${pct(p.SUPPORTED)} · CONTRADICTED ${pct(p.CONTRADICTED)} · INSUFFICIENT ${pct(p.INSUFFICIENT)}`;
   explanationEl.innerHTML=`<p>${explain(out.label)}</p><p><strong>${learning(out.label)}</strong></p>`;
 }
+export function renderFalsification(){
+  const rows=evaluateFalsification(model,predict);
+  const failures=rows.filter(row=>!row.pass);
+  falsificationSummary.textContent=`${rows.length-failures.length}/${rows.length} source-backed cases match the expected evidence relation · ${failures.length} counterexample${failures.length===1?"":"s"} exposed`;
+  falsificationCases.innerHTML=rows.map(row=>`
+    <article class="case ${row.pass?"case-pass":"case-fail"}">
+      <div class="case-kicker">${row.pass?"MATCH":"COUNTEREXAMPLE"} · expected ${row.expected} · model ${row.predicted}</div>
+      <strong>${row.claim}</strong>
+      <p>${row.evidence}</p>
+      <a href="${row.source_url}" target="_blank" rel="noreferrer">${row.source_name}</a>
+    </article>`).join("");
+  return rows;
+}
+export function loadCounterexample(){
+  const row=evaluateFalsification(model,predict).find(item=>!item.pass);
+  if(!row)return;
+  claimEl.value=row.claim;
+  evidenceEl.value=row.evidence;
+  render(analyze(row.claim,row.evidence));
+  document.querySelector("#result").scrollIntoView({behavior:"smooth",block:"center"});
+}
 form.addEventListener("submit",e=>{e.preventDefault();render(analyze(claimEl.value,evidenceEl.value));});
 HOLDOUT_SET.forEach((demo,i)=>{
   const o=document.createElement("option");o.value=String(i);o.textContent=`${demo.label}: ${demo.claim}`;exampleSelect.appendChild(o);
@@ -40,4 +66,6 @@ exampleSelect.addEventListener("change",()=>{
   const demo=HOLDOUT_SET[Number(exampleSelect.value)];
   if(!demo)return;claimEl.value=demo.claim;evidenceEl.value=demo.evidence;render(analyze(demo.claim,demo.evidence));
 });
-modelStatus.textContent=`Offline ML ready · ${TRAINING_SET.length} training pairs · ${HOLDOUT_SET.length} untouched holdout/demo pairs · no API · no CDN · no account`;
+counterexampleButton.addEventListener("click",loadCounterexample);
+modelStatus.textContent=`Offline ML ready · ${TRAINING_SET.length} training pairs · ${HOLDOUT_SET.length} untouched holdout/demo pairs · ${FALSIFICATION_SET.length} source-backed falsification cases · no API · no CDN · no account`;
+renderFalsification();
