@@ -1,10 +1,8 @@
-name: CSC School Evidence Coach
+name: ProofPath Public Mirror CI
 
 on:
   push:
     paths:
-      - 'csc-2026/**'
-      - 'MANIFEST.json'
       - 'README.md'
       - 'MODEL_CARD.md'
       - 'SUBMISSION_COPY.md'
@@ -16,11 +14,11 @@ on:
       - 'model.js'
       - 'test-ui.mjs'
       - 'tests.mjs'
+      - 'MANIFEST.json'
+      - 'PUBLIC_PROVENANCE.json'
       - '.github/workflows/csc-school-evidence-coach.yml'
   pull_request:
     paths:
-      - 'csc-2026/**'
-      - 'MANIFEST.json'
       - 'README.md'
       - 'MODEL_CARD.md'
       - 'SUBMISSION_COPY.md'
@@ -32,6 +30,8 @@ on:
       - 'model.js'
       - 'test-ui.mjs'
       - 'tests.mjs'
+      - 'MANIFEST.json'
+      - 'PUBLIC_PROVENANCE.json'
       - '.github/workflows/csc-school-evidence-coach.yml'
   workflow_dispatch:
 
@@ -41,15 +41,15 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout exact event-window commit
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Checkout exact public mirror commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
       - name: Record runtime identity
         run: |
           node --version
           git rev-parse HEAD
-      - name: Verify committed source manifest
+      - name: Verify sanitized public manifest
         shell: bash
         run: |
           node <<'NODE'
@@ -72,11 +72,9 @@ jobs:
           }
           if (failed) process.exit(1);
           NODE
-      - name: Run committed CSC tests
-        run: node csc-2026/test.cjs
       - name: Run root model tests
         run: node tests.mjs
       - name: Run source-backed falsification tests
         run: node falsification-tests.mjs
-      - name: Run root UI static checks
+      - name: Run judge-first UI static checks
         run: node test-ui.mjs
